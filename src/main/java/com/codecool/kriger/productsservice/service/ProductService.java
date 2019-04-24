@@ -18,12 +18,11 @@ public class ProductService {
     }
 
     public boolean saveProduct(Product product) {
-        // TODO save if not exists
         List<Product> products = productRepository.findAll();
 
         for (Product savedProduct : products) {
             if (savedProduct.getName().equals(product.getName()) &
-                savedProduct.getDescription().equals(product.getName()) &
+                savedProduct.getDescription().equals(product.getDescription()) &
                 savedProduct.getPrice().equals(product.getPrice()) &
                 savedProduct.getImgPath().equals(product.getImgPath())) {
                     return false;
