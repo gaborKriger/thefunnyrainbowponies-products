@@ -39,14 +39,31 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public boolean deleteProduct(Product product) {
-        if (!isExists(product)) {
-            return false;
+    public boolean modifyProduct(Long id, Product product) {
+        Optional<Product> savedProduct = productRepository.findById(id);
+        if (savedProduct.isPresent()) {
+            updateFieldsAndSave(product, savedProduct.get());
+            return true;
         }
-        productRepository.delete(product);
         return false;
     }
 
+    private void updateFieldsAndSave(Product product, Product savedProduct) {
+        savedProduct.setName(product.getName());
+        savedProduct.setDescription(product.getDescription());
+        savedProduct.setPrice(product.getPrice());
+        savedProduct.setImgPath(product.getImgPath());
+        productRepository.save(savedProduct);
+    }
+
+    public boolean deleteProduct(Long id) {
+        boolean exists = productRepository.existsById(id);
+        if (exists) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 
     private boolean isExists(Product product) {
         List<Product> products = productRepository.findAll();

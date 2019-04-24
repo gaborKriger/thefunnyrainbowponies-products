@@ -60,13 +60,19 @@ public class ProductController {
 
     @PutMapping("/products/{id}")
     public ResponseEntity modifyProduct(@PathVariable Long id, @RequestBody Product product) {
-        // TODO business logic
+        boolean isModify = productService.modifyProduct(id, product);
+        if (!isModify) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/products/{id")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity deleteProduct(@PathVariable Long id) {
-        // TODO error handling
+        boolean isDeleted = productService.deleteProduct(id);
+        if (!isDeleted) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 }
