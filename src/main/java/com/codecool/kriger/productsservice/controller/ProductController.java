@@ -1,34 +1,41 @@
 package com.codecool.kriger.productsservice.controller;
 
 import com.codecool.kriger.productsservice.model.Product;
-import com.codecool.kriger.productsservice.repository.ProductRepository;
+import com.codecool.kriger.productsservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @GetMapping("/")
-    public ResponseEntity root() {
-        // TODO funny
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<String> root() {
+        String funnyMessage = "This is the funny rainbow ponies site! \n Please leave this site, until it's to late...";
+        return new ResponseEntity<>(funnyMessage, HttpStatus.OK);
     }
 
     @GetMapping("/products")
-    public ResponseEntity getProducts() {
-        // TODO error handling (if products empty...etc)
-        return new ResponseEntity(productRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Product>> getProducts() {
+        List<Product> products = productService.getProducts();
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PostMapping("/products")
     public ResponseEntity saveProduct(@RequestBody Product product) {
-        productRepository.save(product);
-        // TODO error handling
+        boolean isSaved = productService.saveProduct(product);
+        if (!isSaved) {
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
