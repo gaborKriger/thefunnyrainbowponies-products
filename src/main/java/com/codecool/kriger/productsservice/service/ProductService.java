@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -32,6 +33,10 @@ public class ProductService {
         }
         productRepository.deleteAll();
         return true;
+    }
+
+    public Optional<Product> getProduct(Long id) {
+        return productRepository.findById(id);
     }
 
     public boolean deleteProduct(Product product) {

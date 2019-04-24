@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -49,9 +50,12 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity getProduct(@PathVariable Long id) {
-        // TODO business logic
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<Optional<Product>> getProduct(@PathVariable Long id) {
+        Optional<Product> product = productService.getProduct(id);
+        if (!product.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PutMapping("/products/{id}")
