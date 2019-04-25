@@ -52,14 +52,12 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getProduct(@PathVariable Long id) {
+    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
         Product product = productService.getProduct(id);
-
         if (product == null) {
-            //return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
         }
-        return product;
-        //return new ResponseEntity<>(product, new HttpHeaders(),  HttpStatus.OK);
+        return new ResponseEntity<>(product, new HttpHeaders(),  HttpStatus.OK);
     }
 
     @PutMapping("/products/{id}")
