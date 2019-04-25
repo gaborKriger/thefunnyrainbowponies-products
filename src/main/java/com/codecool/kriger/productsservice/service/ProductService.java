@@ -39,7 +39,7 @@ public class ProductService {
         List<Product> products = productRepository.findAll();
 
         for (Product product : products) {
-            if (product.getName().equals(id)) {
+            if (product.getId().equals(id)) {
                 return product;
             }
         }
