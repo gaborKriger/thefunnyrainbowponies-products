@@ -35,8 +35,15 @@ public class ProductService {
         return true;
     }
 
-    public Optional<Product> getProduct(Long id) {
-        return productRepository.findById(id);
+    public Product getProduct(Long id) {
+        List<Product> products = productRepository.findAll();
+
+        for (Product product : products) {
+            if (product.getName().equals(id)) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public boolean modifyProduct(Long id, Product product) {
