@@ -52,6 +52,7 @@ public class ProductService {
     private void updateFieldsAndSave(Product product, Product savedProduct) {
         savedProduct.setName(product.getName());
         savedProduct.setDescription(product.getDescription());
+        savedProduct.setLongDescription(product.getLongDescription());
         savedProduct.setPrice(product.getPrice());
         savedProduct.setImgPath(product.getImgPath());
         productRepository.save(savedProduct);
@@ -71,6 +72,7 @@ public class ProductService {
         for (Product savedProduct : products) {
             if (savedProduct.getName().equals(product.getName()) &
                     savedProduct.getDescription().equals(product.getDescription()) &
+                    savedProduct.getLongDescription().equals(product.getLongDescription()) &
                     savedProduct.getPrice().equals(product.getPrice()) &
                     savedProduct.getImgPath().equals(product.getImgPath())) {
                 return true;
