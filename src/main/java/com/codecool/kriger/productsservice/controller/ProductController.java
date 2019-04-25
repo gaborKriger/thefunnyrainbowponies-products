@@ -52,12 +52,12 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Optional<Product>> getProduct(@PathVariable Long id) {
+    public ResponseEntity getProduct(@PathVariable Long id) {
         Optional<Product> product = productService.getProduct(id);
         if (!product.isPresent()) {
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(product,new HttpHeaders(),  HttpStatus.OK);
+        return new ResponseEntity<>(product, new HttpHeaders(),  HttpStatus.OK);
     }
 
     @PutMapping("/products/{id}")
