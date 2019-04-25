@@ -3,6 +3,7 @@ package com.codecool.kriger.productsservice.service;
 import com.codecool.kriger.productsservice.model.Product;
 import com.codecool.kriger.productsservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,16 +69,19 @@ public class ProductService {
     }
 
     private boolean isExists(Product product) {
-        List<Product> products = productRepository.findAll();
-        for (Product savedProduct : products) {
-            if (savedProduct.getName().equals(product.getName()) &
-                    savedProduct.getDescription().equals(product.getDescription()) &
-                    savedProduct.getLongDescription().equals(product.getLongDescription()) &
-                    savedProduct.getPrice().equals(product.getPrice()) &
-                    savedProduct.getImgPath().equals(product.getImgPath())) {
-                return true;
-            }
-        }
-        return false;
+        Example<Product> example = Example.of(product);
+        return productRepository.exists(example);
+
+//        List<Product> products = productRepository.findAll();
+//        for (Product savedProduct : products) {
+//            if (savedProduct.getName().equals(product.getName()) &
+//                    savedProduct.getDescription().equals(product.getDescription()) &
+//                    savedProduct.getLongDescription().equals(product.getLongDescription()) &
+//                    savedProduct.getPrice().equals(product.getPrice()) &
+//                    savedProduct.getImgPath().equals(product.getImgPath())) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 }
