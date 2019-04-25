@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -34,6 +36,9 @@ public class ProductController {
             log.warn("No product available!");
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
         }
+        log.info("Sorting list...");
+        products.sort(Comparator.comparingLong(Product::getId));
+        log.info("Sorted list.");
         log.info("Fetched all products.");
         return new ResponseEntity<>(products,new HttpHeaders(), HttpStatus.OK);
     }
